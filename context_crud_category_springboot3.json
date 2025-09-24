@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "title": "1. HƯỚNG D ẪN CRUD API CATEGORY TRÊN SPRING BOOT 3.1.5",
+    "source_pdf": "CRUD API Category Spring Boot 3.pdf",
+    "created_from": "user-uploaded PDF",
+    "created_at": "2025-09-24T13:03:31",
+    "page_count": 15,
+    "language": "vi-VN",
+    "parser": "PyPDF2",
+    "parse_error": null,
+    "notes": "Một số trang có thể là hình ảnh; text trích xuất có thể thiếu dấu xuống dòng/định dạng code."
+  },
+  "outline": {
+    "detected_steps": [
+      "Bước 1: thêm thư vi ện upload file và swagger 3",
+      "Bước 2: Xây d ựng Entity Category và product",
+      "Bước 3: Xây d ựng Responsitory",
+      "Bước 4: Xây d ựng tầng service",
+      "Bước 5: Xây dựng model để hiển thị theo format",
+      "Bước 6: Xây dựng hàm upload file trong spring boot",
+      "Bước 7: Viết Controller",
+      "Bước 8: kết quả",
+      "Bước 1: thêm thư vi ện và cấu hình swagger2",
+      "Bước 2 – bước 8: tương t ự nội dung s ố 1"
+    ],
+    "likely_headings": [
+      "1. HƯỚNG D ẪN CRUD API CATEGORY TRÊN SPRING BOOT 3.1.5",
+      "Bước 1: thêm thư vi ện upload file và swagger 3",
+      "Bước 2: Xây d ựng Entity Category và product",
+      "Bước 3: Xây d ựng Responsitory",
+      "Bước 4: Xây d ựng tầng service",
+      "Bước 5: Xây dựng model để hiển thị theo format",
+      "Bước 6: Xây dựng hàm upload file trong spring boot",
+      "Bước 7: Viết Controller",
+      "Bước 8: kết quả",
+      "DELETE",
+      "2. HƯỚNG D ẪN CRUD CATEGORY TRÊN SPRING BOOT 2.7.17",
+      "Bước 1: thêm thư vi ện và cấu hình swagger2",
+      "Bước 2 – bước 8: tương t ự nội dung s ố 1"
+    ]
+  },
+  "keywords": [
+    {
+      "term": "import",
+      "count": 81
+    },
+    {
+      "term": "category",
+      "count": 51
+    },
+    {
+      "term": "public",
+      "count": 46
+    },
+    {
+      "term": "string",
+      "count": 41
+    },
+    {
+      "term": "return",
+      "count": 35
+    },
+    {
+      "term": "new",
+      "count": 27
+    },
+    {
+      "term": "private",
+      "count": 24
+    },
+    {
+      "term": "file",
+      "count": 23
+    },
+    {
+      "term": "categoryrepository",
+      "count": 20
+    },
+    {
+      "term": "long",
+      "count": 19
+    },
+    {
+      "term": "@override",
+      "count": 19
+    },
+    {
+      "term": "name",
+      "count": 18
+    },
+    {
+      "term": "response",
+      "count": 18
+    },
+    {
+      "term": "optional",
+      "count": 16
+    },
+    {
+      "term": "class",
+      "count": 16
+    },
+    {
+      "term": "pageable",
+      "count": 15
+    },
+    {
+      "term": "if",
+      "count": 15
+    },
+    {
+      "term": "optcategory",
+      "count": 15
+    },
+    {
+      "term": "package",
+      "count": 14
+    },
+    {
+      "term": "responseentity",
+      "count": 14
+    },
+    {
+      "term": "void",
+      "count": 13
+    },
+    {
+      "term": "path",
+      "count": 13
+    },
+    {
+      "term": "dependency",
+      "count": 12
+    },
+    {
+      "term": "groupid",
+      "count": 12
+    },
+    {
+      "term": "artifactid",
+      "count": 12
+    },
+    {
+      "term": "id",
+      "count": 12
+    },
+    {
+      "term": "bước",
+      "count": 11
+    },
+    {
+      "term": "version",
+      "count": 10
+    },
+    {
+      "term": "list",
+      "count": 10
+    },
+    {
+      "term": "storageexception",
+      "count": 10
+    },
+    {
+      "term": "thêm",
+      "count": 9
+    },
+    {
+      "term": "icon",
+      "count": 9
+    },
+    {
+      "term": "extends",
+      "count": 9
+    },
+    {
+      "term": "categoryservice",
+      "count": 9
+    },
+    {
+      "term": "swagger",
+      "count": 8
+    },
+    {
+      "term": "entity",
+      "count": 8
+    },
+    {
+      "term": "product",
+      "count": 8
+    },
+    {
+      "term": "categoryid",
+      "count": 8
+    },
+    {
+      "term": "categoryname",
+      "count": 8
+    },
+    {
+      "term": "null",
+      "count": 8
+    }
+  ],
+  "topics_inferred": [
+    "Category entity CRUD",
+    "Product entity & relation",
+    "Swagger/OpenAPI UI"
+  ],
+  "inferred_summary": [
+    "Tích hợp Swagger/OpenAPI để thử API tại /swagger-ui.html (springdoc/springfox)."
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "chars": 1532,
+      "image_only": false,
+      "text_preview": "1. HƯỚNG D ẪN CRUD API CATEGORY TRÊN SPRING BOOT 3.1.5 \nBước 1: thêm thư vi ện upload file và swagger 3 \n<!--cấu hình file upload --> \n <dependency > \n <groupId>org.springframework.boot</ groupId> \n <artifactId >spring-boot-configuration -processor</ artifactId > \n <optional >true</optional > \n </dependency > \n <!-- https://mvnr epository.com/artifact/commons -io/commons -io --> \n <dependency > \n <groupId>commons -io</groupId> \n <artifactId >commons -io</artifactId > \n <version>2.11.0</ version> \n </dependency > \n <!-- swagger3 --> \n \n <dependency > \n <groupId>io.springfox</ groupId> \n <artifactId >springfox -swagger-ui</artifactId > \n <version>3.0.0</ version> \n </dependency > \n <dependency > \n <groupId>org.springdoc</ groupId> \n <artifactId >springdoc -openapi-starter-webmvc-ui</artifactId > \n <version>2.0.2</ version> \n </dependency > \nBước 2: Xây d ựng Entity Category và product \npackage vn.iotstar.entity; \n \nimport java.io.Serializable; \nimport java.util.Set; \nimport jakarta.persistence.*; \nimport lombok.*; \n \n@Data \n@AllArgsConstructor \n@NoArgsConstructor \n@Entity \n@Table(name = \"Categories\" ) \npubl ic class Category implements Serializable{ \n \n private static final long serialVersionUID = 1L; \n @Id \n @GeneratedValue (strategy = GenerationType. IDENTITY ) \n private Long categoryId ; \n private String categoryName ; \n private String icon; \n \n@JsonIgnore \n @OneToMany (mappedBy = \"category\" , cascade = CascadeType. ALL ) \n private Set<Product> products ; \n \n} \n================= \npackage vn.iotstar.entity;"
+    },
+    {
+      "page": 2,
+      "chars": 1669,
+      "image_only": false,
+      "text_preview": "import java.io.Serializable; \nimport java.util.Date; \n \nimport org.springframework.format.annotation.DateTimeFormat; \nimport jakarta.persis tence.*; \nimport lombok.*; \n \n@Data \n@AllArgsConstructor \n@NoArgsConstructor \n@Entity \n@Table(name = \"Products\" ) \npublic class Product implements Serializable { \n private static final long serialVersionUID = 1L; \n @Id \n @GeneratedValue (strategy = GenerationType. IDENT ITY) \n private Long productId ; \n @Column(length = 500, columnDefinition = \"nvarchar(500) not null\" ) \n private String productName ; \n @Column(nullable = false) \n private int quantity ; \n @Column(nullable = false) \n private double unitPrice ; \n @Column(length = 200) \n private String images; \n @Column(columnDefinition = \"nvarchar(500) not null\" ) \n private String description ; \n @Column(nullable = false) \n private double discount ; \n @Temporal (TemporalType. TIMESTAMP ) \n @DateTimeFormat (pattern = \"YYYY-MM-DD hh:mi:ss\" ) \n private Date createDate ; \n @Column(nullable = false) \n private short status; \n \n@JsonIgnore \n @ManyToOne \n @JoinColumn (name=\"categoryId\" ) \n private Category category ; \n \n} \nBước 3: Xây d ựng Responsitory \npackage vn.iotstar.repository; \n \nimport java.util.List; \nimport java.util.Optional; \n \nimport org.springframework.data.domain.Page; \nimport org.springframework.data.domain.Pageable; \nimport org.springframework.data.jpa.repository.Jp aRepository; \nimport org.springframework.stereotype.Repository; \n \nimport vn.iotstar.entity.Category; \n \n@Repository \npublic interface CategoryRepository extends JpaRepository<Category, Long > { \n //Tìm Kiếm theo nội dung tên \n List<Category> findByCategoryNameCon taining(String name);"
+    },
+    {
+      "page": 3,
+      "chars": 1564,
+      "image_only": false,
+      "text_preview": "//Tìm kiếm và Phân trang \n Page<Category> findByCategoryNameContaining(String name,Pageable pageable ); \n Optional<Category> findByCategoryName(String name); \n} \n \n=============== \npackage vn.iotstar.repository; \n \nimport java.util.Date; \nimpo rt java.util.List; \nimport java.util.Optional; \n \nimport org.springframework.data.domain.Page; \nimport org.springframework.data.domain.Pageable; \nimport org.springframework.data.jpa.repository.JpaRepository; \nimport org.springframework.stereotype.Repository; \n \nimport vn.iotstar.entity.Product; \n \n \n@Repository \npublic interface ProductRepository extends JpaRepository<Product, Long> { \n //Tìm Kiếm theo nội dung tên \n List<Product> findByProductNameContaining(String name); \n //Tìm kiếm và Phân trang \n Page<Product> findByProductNameContaining(String name,Pageable \npageable ); \n \n Optional<Product> findByProductName(String name); \n Optional< Product> findByCreateDate(Date createAt ); \n} \nBước 4: Xây d ựng tầng service \npackage vn.iotstar.service; \n \nimport java.util.List; \nimport java.util.Optional; \n \nimport org.springframework.data.domain.Example; \nimport org.springframework.data.domain.Page; \nimport org.springframework.data.domain.Pageable; \nimport org.springframework.data.domain.Sort; \n \nimport vn.iotstar.entity.Category; \n \npublic interface ICategoryService { \n \n void delete(Category entity); \n \n void deleteById(Long id); \n \n long count(); \n \n <S extends Category> Optional<S> findOne(Example<S> example); \n \n Optional<Category> findById(Long id); \n \n List<Category> findAllById(Iterable<Long> ids);"
+    },
+    {
+      "page": 4,
+      "chars": 1570,
+      "image_only": false,
+      "text_preview": "List<Category> findAll(Sort sort); \n \n Page<Category> findAll(Pageable pageable ); \n \n List<Category> findAll(); \n \n Optional<Cat egory> findByCategoryName(String name); \n \n <S extends Category> S save(S entity); \n \n Page<Category> findByCategoryNameContaining(String name, Pageable pageable ); \n \n List<Category> findByCategoryNameContaining(String name); \n \n} \n=============== \npackage vn.iotsta r.service; \nimport java.util.List; \nimport java.util.Optional; \nimport org.springframework.beans.factory.annotation.Autowired; \nimport org.springframework.data.domain.Example; \nimport org.springframework.data.domain.Page; \nimport org.springframework.data.domain. Pageable; \nimport org.springframework.data.domain.Sort; \nimport org.springframework.stereotype.Service; \n \nimport org.springframework.util.StringUtils; \n \nimport vn.iotstar.entity.Category; \nimport vn.iotstar.repository.CategoryRepository; \n \n \n//khai báo service \n@Service \npublic class CategoryServiceImpl implements ICategoryService{ \n @Autowired \n CategoryRepository categoryRepository ; \n //source -> Generate Constructor using Field, xóa super() \n \n \n @Override \n public <S extends Category> S save(S entity) { \n if(entity.getCategoryId() == null) { \n return categoryRepository .save(entity); \n }else { \n Optional<Category> opt = findById( entity.getCategoryId()); \n if(opt.isPresent()) { \n if (StringUtils. isEmpty(entity.getIcon()) ) { \n entity.setIcon( opt.get().getIcon()); \n }else { \n //lấy lại images cũ \n entity.setIcon( entity.getIcon()); \n } \n } \n return categoryRepository .save(entity); \n \n }"
+    },
+    {
+      "page": 5,
+      "chars": 1545,
+      "image_only": false,
+      "text_preview": "} \n @Override \n public Optional<Category> findByCategoryName(String name) { \n return categoryRepository .findByCategoryName( name); \n } \n publ ic CategoryServiceImpl(CategoryRepository categoryRepository ) { \n this.categoryRepository = categoryRepository ; \n } \n @Override \n public List<Category> findAll() { \n return categoryRepository .findAll(); \n } \n @Override \n public Page<Category> findAll(Pageable pageable) { \n return categoryRepository .findAll( pageable ); \n } \n @Override \n public List<Category> findAll(Sort sort) { \n return categoryRepository .findAll( sort); \n } \n @Override \n public List<Category> findAllById(Iterable<Long> ids) { \n return categoryRepository .findAllById( ids); \n } \n @Override \n public Optional<Category> findById(Long id) { \n return categoryRepository .findById( id); \n } \n @Override \n public <S extends Category> Optional<S> findOne(Example<S> example) { \n return categoryRepository .findOne( example); \n } \n @Override \n public long count() { \n return categoryRepository .count(); \n } \n @Override \n public void deleteById(Long id) { \n categoryRepository .deleteById( id); \n } \n @Override \n public void delete(Category entity) { \n categoryRepository .delete( entity); \n } \n \n @Override \n public List<Category> findByCategoryNameContaining(String name) { \n \n return categoryRepository .findByCategoryNameContaining( name); \n } \n @Override \n public Page<Category> findByCategoryNameContaining(String name, Pageable \npageable ) { \n \n return categoryRepository .findByCategoryNameContaining( name, pageable ); \n }"
+    },
+    {
+      "page": 6,
+      "chars": 1324,
+      "image_only": false,
+      "text_preview": "} \nBước 5: Xây dựng model để hiển thị theo format \npackage vn.iotstar.model; \n \nimport lombok.AllArgsConstructor; \nimport lombok.Data; \nimport lombok.NoArgsConstructor; \n \n@Data \n@AllArgsConstructor \n@NoArgsConstructor \n \npublic class Response { \n private Boolean status; \n \n private String message; \n \n private Object body; \n \n} \nBước 6: Xây dựng hàm upload file trong spring boot \npackage vn.iotstar.service; \n \nimport java.nio.file.Path; \n \nimport org.springframework.core.io.Resource; \nimport org.springframework.web.multipart.Multipa rtFile; \n \npublic interface IStorageService { \n \n void init(); \n \n void delete(String storeFilename ) throws Exception; \n \n Path load(String filename ); \n \n Resource loadAsResource(String filename ); \n \n void store(MultipartFile file, String storeFilename ); \n \n String getS orageFilename(MultipartFile file, String id); \n \n} \n===================== \npackage vn.iotstar.service; \n \n \nimport java.io.InputStream; \nimport java.nio.file.Files; \nimport java.nio.file.Path; \nimport java.nio.file.Paths; \nimport java.nio.file.StandardCopyOption; \n \nimport org.apache.commons.io.FilenameUtils; \nimport org.springframework.core.io.Resource; \nimport org.springframework.core.io.UrlResource; \nimport org.springframework.stereotype.Service; \nimport org.springframework.web.multipart.MultipartFile;"
+    },
+    {
+      "page": 7,
+      "chars": 1786,
+      "image_only": false,
+      "text_preview": "import vn.iotstar .Exception.StorageException; \nimport vn.iotstar.config.StorageProperties; \n \n@Service \npublic class FileSystemStorageServiceImpl implements IStorageService { \n private final Path rootLocation ; \n \n @Override \n public String getSorageFilename(MultipartFile file, String id) { \n String ext = FilenameUtils. getExtension (file.getOriginalFilename()); \n return \"p\" + id + \".\" + ext; \n } \n public FileSystemStorageServiceImpl(StorageProperties properties ) { \n this.rootLocation = Paths. get(properties .getLocation()); \n } \n @Overrid e \n public void store(MultipartFile file, String storeFilename ) { \n try { \n if(file.isEmpty()) { \n throw new StorageException( \"Failed to store empty file\" ); \n \n } \n Path destinationFile = \nthis.rootLocation .resolve(Paths. get(storeFilename )) \n .normalize().toAbsolutePath(); //lấy đường dẫn tuyệt \nđối \n \n if(!destinationFile .getParent().equals( this.rootLocation .toAbsolutePath())) { \n throw new StorageException( \"Cannot store file outside \ncurent directory\" ); \n } \n try (InputStream inputStrea m = file.getInputStream()) { \n Files. copy(inputStream , destinationFile , \nStandardCopyOption. REPLACE_EXISTING ); \n } \n } catch (Exception e) { \n throw new StorageException( \"Failed to store file: \" , e); \n } \n \n } \n @Override \n public Resource loadAsResourc e(String filename ) { \n try { \n Path file = load(filename ); \n Resource resource = new UrlResource( file.toUri()); \n if(resource .exists() || resource .isReadable()) { \n return resource ; \n } \n throw new StorageException( \"Can not read file: \" + filename ); \n \n } catch (Exception e) { \n throw new StorageException( \"Could not read file: \" + filename ); \n } \n } \n @Override \n public Path load(String filename ) { \n return rootLocation .resolve( filename ); \n } \n @Override"
+    },
+    {
+      "page": 8,
+      "chars": 1239,
+      "image_only": false,
+      "text_preview": "public void delete(String storeFilename ) throws Exception { \n Path destinationFile = \nrootLocation .resolve(Paths. get(storeFilename )).normalize().toAbsolutePath(); \n Files. delete(destinationFile ); \n \n } \n @Override \n public void init() { \n try { \n Files. createDirectories (rootLocation ); \n System. out.println(rootLocation .toString()); \n } catch (Exception e) { \n throw new StorageException( \"Could not read file: \" , e); \n } \n } \n} \n===================== \npackage vn.iotstar.Exception; \n \npublic class StorageException extends RuntimeException { \n \n \n private static fina l long serialVersionUID = 1L; \n \n public StorageException(String message) { \n super(message); \n \n } \n \n public StorageException(String message, Exception e) { \n super(message,e); \n } \n \n} \n========================= \npackage vn.iotstar.Exception; \n \npublic class StorageFileNotFoundException extends StorageException { \n \n private static final long serialVersionUID = 1L; \n \n public StorageFileNotFoundException(String message) { \n super(message); \n \n } \n \n} \n==================== \npackage vn.iotstar.config; \n \nimport org.springframew ork.boot.context.properties.ConfigurationProperties; \n \nimport lombok.Data; \n \n@Data \n@ConfigurationProperties (\"storage\" )"
+    },
+    {
+      "page": 9,
+      "chars": 1750,
+      "image_only": false,
+      "text_preview": "public class StorageProperties { \n private String location ; \n} \n======================== \nThêm vùng màu vàng vào file chạy spring boot: ….Application.java \n \n@SpringBootApplication \n@EnableConfigurationProperties (StorageProperties. class) // thêm cấu hình storage \npublic class SpringbootThymeleafApplication { \n \n public static void main(String[] args) { \n SpringApplication. run(SpringbootThymeleafApplication. class, args); \n \n \n } \n // thêm cấu hình storage \n @Bean \n CommandLineRunner init(IStorageService storageService ) { \n return (args -> { \n storageService .init(); \n }); \n } \n \n \n \n} \nBước 7: Viết Controller \npackage vn.iotstar.Controller.api; \n \nimport java.util.Optional; \nimport java.util.UUID; \n \nimport org.springframework.beans.factory.annotation.Autowired; \nimport org.springframework.http.HttpStatus; \nimport org.springframework.http.ResponseEntity; \nimport org.springframework.validation.annotation.Validated; \nimport org.springframework.web.bind.annotation.DeleteMapping; \nimport org.springframework.web.bind.annotation.GetMapping; \nimport org.springframework.web.bind.annotation.PostMapping; \nimport org.springframework.web.bind.annotation.PutMapping; \nimport org.springframew ork.web.bind.annotation.RequestMapping; \nimport org.springframework.web.bind.annotation.RequestParam; \nimport org.springframework.web.bind.annotation.RestController; \nimport org.springframework.web.multipart.MultipartFile; \n \n \nimport vn.iotstar.entity.Categor y; \nimport vn.iotstar.model.Response; \nimport vn.iotstar.service.ICategoryService; \nimport vn.iotstar.service.IStorageService; \n \n@RestController \n@RequestMapping (path = \"/api/category\" ) \npublic class CategoryAPIController { \n \n @Autowired \n private ICategoryServi ce categoryService ;"
+    },
+    {
+      "page": 10,
+      "chars": 2027,
+      "image_only": false,
+      "text_preview": "@Autowired \n IStorageService storageService ; \n \n @GetMapping \n public ResponseEntity<?> getAllCategory() { \n //return ResponseEntity.ok().body(categoryService.findAll()); \n return new ResponseEntity<Response>( new Response( true, \"Thành công\" , \ncategoryService .findAll()), HttpStatus. OK); \n } \n \n \n @PostMapping (path = \"/getCategory\" ) \n public ResponseEntity<?> getCategory( @Validated @RequestParam (\"id\") Long id) { \n Optional<Category> category = categoryService .findById( id); \n \n if (category.isPresent()) { \n //return ResponseEntity.ok().body(category.get()); \n return new ResponseEntity<Response>( new Response( true, \"Thành \ncông\", category .get()), HttpStatus. OK); \n } else { \n //return ResponseEntity.notFound().build(); \n return new ResponseEntity<Response>( new Response( false, \"Thất \nbại\", null), HttpStatus. NOT_FOUND ); \n } \n } \n \n \n \n @PostMapping (path = \"/addCategory\" ) \n public ResponseEntity<?> addCategory( @Validated @RequestParam (\"categoryName\" ) \nString categoryName , \n @Validated @RequestParam (\"icon\") MultipartFile icon) { \n Optional<Category> optCategory = \ncategoryService .findByCategoryName( categoryName ); \n \n if (optCategory .isPresent()) { \n return \nResponseEntity. status(HttpStatus. BAD_REQUEST ).body(\"Category đã tồn tại trong hệ \nthống\"); \n //return new ResponseEntity<Response>(new Response(false, \"Loại \nsản phẩm này đã tồn tại trong hệ thống\", optCategory.get()), HttpStatus.BAD_REQUEST); \n } else { \n Category category = new Category(); \n //kiểm tra tồn tại file, lưu file \n if(!icon.isEmpty()) { \n UUID uuid = UUID. randomUUID (); \n String uuString = uuid.toString(); \n //lưu file vào trường Images \n category .setIcon( storageService .getSorageFilename( icon, \nuuString )); \n storageService .store(icon, category .getIcon()); \n } \n \n category.setCategoryName( categoryName ); \n \n categoryService .save(category ); \n //return ResponseEntity.ok().body(category); \n return new ResponseEntity<Response>( new Response( true, \"Thêm \nThành công\" , c"
+    },
+    {
+      "page": 11,
+      "chars": 1871,
+      "image_only": false,
+      "text_preview": "} \n } \n @PutMapping (path = \"/updateCategory\" ) \n public ResponseEntity<?> updateCategory( @Validated @RequestParam (\"categoryId\" ) \nLong categoryId , \n @Validated @RequestParam (\"categoryName\" ) String categoryName , \n @Validated @RequestParam (\"icon\") MultipartFile icon) { \n Optional<Categor y> optCategory = categoryService .findById( categoryId ); \n \n if (optCategory .isEmpty()) { \n return new ResponseEntity<Response>( new Response( false, \"Không \ntìm thấy Category\" , null), HttpStatus. BAD_REQUEST ); \n }else if(optCategory .isPresent()) { \n \n //kiểm tra tồn tại file, lưu file \n if(!icon.isEmpty()) { \n UUID uuid = UUID. randomUUID (); \n String uuString = uuid.toString(); \n //lưu file vào trường Images \n \n optCategory .get().setIcon( storageService .getSorageFilename( icon, uuString )); \n storageService .store(icon, \noptCategory .get().getIcon()); \n } \n \n optCategory .get().setCategoryName( categoryName ); \n categoryService .save(optCategory .get()); \n //return ResponseEntity.ok().body(category); \n return new ResponseEntity<Re sponse>( new \nResponse( true, \"Cập nhật Thành công\" , optCategory .get()), HttpStatus. OK); \n } \n return null; \n } \n \n @DeleteMapping (path = \"/deleteCategory\" ) \n public ResponseEntity<?> deleteCategory( @Validated @RequestParam (\"categoryId\" ) \nLong categoryId ){ \n Optional<Category> optCategory = categoryService .findById( categoryId ); \n if (optCategory .isEmpty()) { \n return new ResponseEntity<Response>( new Response( false, \"Không \ntìm thấy Category\" , null), HttpStatus. BAD_REQUEST ); \n }else if(optCategory .isPresent()) { \n categoryService .delete( optCategory .get()); \n //return ResponseEntity.ok().body(category); \n return new ResponseEntity<Response>( new Response( true, \"Xóa Thành \ncông\", optCategory .get()), HttpStatus. OK); \n } \n \n return null; \n \n } \n} \n======================== \n \nBước 8: kết quả \nGET"
+    },
+    {
+      "page": 12,
+      "chars": 13,
+      "image_only": true,
+      "text_preview": "POST \n \n \nPUT"
+    },
+    {
+      "page": 13,
+      "chars": 558,
+      "image_only": false,
+      "text_preview": "DELETE \n \n \n \nđường dẫn swagger \nhttp://localhost:8080/swagger -ui.html \n \n \n2. HƯỚNG D ẪN CRUD CATEGORY TRÊN SPRING BOOT 2.7.17 \nBước 1: thêm thư vi ện và cấu hình swagger2 \n<!-- swagger2 --> \n <dependency > \n <groupId>io.springfox</ groupId> \n <artifactId >springfox -swagger2</ artifactId > \n <version>2.9.2</ version> \n </dependency > \n \n <dependency > \n <groupId>io.springfox</ groupId> \n <artifactId >springfox -swagger-ui</artifactId > \n <version>2.9.2</version> \n </dependency > \n \nThêm các dòng màu vàng vào file chạy spring boot: ….Application.java"
+    },
+    {
+      "page": 14,
+      "chars": 1592,
+      "image_only": false,
+      "text_preview": "@SpringBootApplication \n@EnableSwagger2 \npublic class CosmeticApiApplication { \n \n public static void main(String[] args) { \n SpringApplication .run(CosmeticApiApplication. class, args); \n } \n \n \n @Bean \n public Docket SWAGGERApi() { \n return new Docket(DocumentationType. SWAGGER_2 ) \n //.select() \n \n//.apis(RequestHandlerSelectors.basePackage(\"vn.iotstar\")).build(); \n .select() \n .apis(RequestHandlerSelectors. any()) \n .paths(PathSelectors. any()) \n .build(); \n } \n \n} \nMở file application.properties và thêm l ệnh sau \nspring.mvc.pathmatch.matching -strategy = ANT_PATH_MATCHER \nCấu hình sitemesh đ ể đọc swagger 2 : thêm dòng màu vàng vào class CustomSiteMeshFilter \npackage vn.iotstar.config; \n \nimport org.sitemesh.builder.SiteMeshFilterBuilder; \nimport org.sitemesh.config.ConfigurableSiteMeshFilter; \n \npublic class CustomSiteMeshFilter extends ConfigurableSiteMeshFilter { \n @Override \n protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) { \n // Assigning default decorator if no path specific decorator found \n builder.addDecoratorPath( \"/*\", \"/decorators/web.jsp\" ) \n // Map decorators to specific path patterns. \n .addDecoratorPath( \"/admin/*\" , \"/decorators/admin.jsp\" ) \n // Exclude few paths from decoration. \n .addExcludedPath( \"/login*\" ).addExcludedPath( \"/login/*\" ) \n .addExcludedPath( \"/alogin*\" ).addExcludedPath( \"/alogin/*\" ) \n .addExcludedPath( \"/api/**\" ).addExcludedPath( \"/api/**\" ) \n .addExcludedPath( \"/swagger -ui**\").addExcludedPath( \"/swagger -ui**\"); \n } \n} \n================== \nđường dẫn swagger \nhttp://localhost:8080/swagger -ui.html"
+    },
+    {
+      "page": 15,
+      "chars": 41,
+      "image_only": false,
+      "text_preview": "Bước 2 – bước 8: tương t ự nội dung s ố 1"
+    }
+  ]
+}

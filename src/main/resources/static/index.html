@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AJAX CRUD Demo</title>
+	<style>
+		body { font-family: sans-serif; margin: 24px; }
+		table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+		th, td { border: 1px solid #ddd; padding: 8px; }
+		th { background: #f3f3f3; }
+		section { margin-bottom: 32px; }
+	</style>
+</head>
+<body>
+	<h1>AJAX CRUD Demo</h1>
+	<section>
+		<h2>Category</h2>
+		<form id="categoryForm">
+			<input type="hidden" id="categoryId">
+			<input placeholder="Category name" id="categoryName">
+			<input type="file" id="categoryIcon">
+			<button type="submit">Lưu</button>
+		</form>
+		<button id="reloadCategory">Tải lại</button>
+		<table id="categoryTable">
+			<thead><tr><th>ID</th><th>Name</th><th>Icon</th><th>Action</th></tr></thead>
+			<tbody></tbody>
+		</table>
+	</section>
+
+	<section>
+		<h2>Product</h2>
+		<form id="productForm">
+			<input type="hidden" id="productId">
+			<input placeholder="Product name" id="productName">
+			<input placeholder="Quantity" type="number" id="quantity" value="1">
+			<input placeholder="Unit Price" type="number" step="0.01" id="unitPrice" value="0">
+			<input placeholder="Discount" type="number" step="0.01" id="discount" value="0">
+			<input placeholder="Status" type="number" id="status" value="1">
+			<select id="productCategory"></select>
+			<input type="file" id="productImages">
+			<textarea placeholder="Description" id="description"></textarea>
+			<button type="submit">Lưu</button>
+		</form>
+		<button id="reloadProduct">Tải lại</button>
+		<table id="productTable">
+			<thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Category</th><th>Image</th><th>Action</th></tr></thead>
+			<tbody></tbody>
+		</table>
+	</section>
+
+	<script>
+	async function fetchJSON(url) {
+		const res = await fetch(url);
+		return res.json();
+	}
+	function apiBody(ok, data) { return data.body ?? data; }
+
+	async function loadCategories() {
+		const data = await fetchJSON('/api/category');
+		const items = apiBody(true, data);
+		const tbody = document.querySelector('#categoryTable tbody');
+		tbody.innerHTML = '';
+		const select = document.getElementById('productCategory');
+		select.innerHTML = '';
+		items.forEach(c => {
+			const tr = document.createElement('tr');
+			tr.innerHTML = `<td>${c.categoryId}</td><td>${c.categoryName}</td><td>${c.icon||''}</td>
+			<td><button data-id="${c.categoryId}" class="edit-cat">Sửa</button> <button data-id="${c.categoryId}" class="del-cat">Xóa</button></td>`;
+			tbody.appendChild(tr);
+			const opt = document.createElement('option');
+			opt.value = c.categoryId; opt.textContent = c.categoryName; select.appendChild(opt);
+		});
+	}
+
+	async function loadProducts() {
+		const data = await fetchJSON('/api/product');
+		const items = apiBody(true, data);
+		const tbody = document.querySelector('#productTable tbody');
+		tbody.innerHTML = '';
+		items.forEach(p => {
+			const tr = document.createElement('tr');
+			tr.innerHTML = `<td>${p.productId}</td><td>${p.productName}</td><td>${p.unitPrice}</td><td>${p.category? p.category.categoryName: ''}</td><td>${p.images||''}</td>
+			<td><button data-id="${p.productId}" class="edit-pro">Sửa</button> <button data-id="${p.productId}" class="del-pro">Xóa</button></td>`;
+			tbody.appendChild(tr);
+		});
+	}
+
+	document.getElementById('reloadCategory').onclick = loadCategories;
+	document.getElementById('reloadProduct').onclick = loadProducts;
+
+	document.getElementById('categoryForm').onsubmit = async (e) => {
+		e.preventDefault();
+		const id = document.getElementById('categoryId').value;
+		const name = document.getElementById('categoryName').value;
+		const icon = document.getElementById('categoryIcon').files[0];
+		const fd = new FormData();
+		if (id) fd.append('categoryId', id);
+		fd.append('categoryName', name);
+		if (icon) fd.append('icon', icon);
+		const url = id ? '/api/category/updateCategory' : '/api/category/addCategory';
+		await fetch(url, { method: id ? 'PUT':'POST', body: fd });
+		loadCategories();
+	};
+
+	document.addEventListener('click', async (e) => {
+		if (e.target.classList.contains('del-cat')) {
+			const id = e.target.getAttribute('data-id');
+			const params = new URLSearchParams({ categoryId: id });
+			await fetch('/api/category/deleteCategory?' + params.toString(), { method: 'DELETE' });
+			loadCategories();
+		}
+		if (e.target.classList.contains('edit-cat')) {
+			const id = e.target.getAttribute('data-id');
+			document.getElementById('categoryId').value = id;
+			const data = await (await fetch('/api/category/getCategory?id=' + id)).json();
+			const c = apiBody(true, data);
+			document.getElementById('categoryName').value = c.categoryName;
+		}
+		if (e.target.classList.contains('del-pro')) {
+			const id = e.target.getAttribute('data-id');
+			const params = new URLSearchParams({ productId: id });
+			await fetch('/api/product/deleteProduct?' + params.toString(), { method: 'DELETE' });
+			loadProducts();
+		}
+		if (e.target.classList.contains('edit-pro')) {
+			const id = e.target.getAttribute('data-id');
+			document.getElementById('productId').value = id;
+			const data = await (await fetch('/api/product/getProduct?id=' + id)).json();
+			const p = apiBody(true, data);
+			document.getElementById('productName').value = p.productName;
+			document.getElementById('quantity').value = p.quantity;
+			document.getElementById('unitPrice').value = p.unitPrice;
+			document.getElementById('discount').value = p.discount;
+			document.getElementById('status').value = p.status;
+			document.getElementById('productCategory').value = p.category?.categoryId || '';
+			document.getElementById('description').value = p.description || '';
+		}
+	});
+
+	document.getElementById('productForm').onsubmit = async (e) => {
+		e.preventDefault();
+		const id = document.getElementById('productId').value;
+		const fd = new FormData();
+		if (id) fd.append('productId', id);
+		fd.append('productName', document.getElementById('productName').value);
+		fd.append('quantity', document.getElementById('quantity').value);
+		fd.append('unitPrice', document.getElementById('unitPrice').value);
+		fd.append('discount', document.getElementById('discount').value);
+		fd.append('status', document.getElementById('status').value);
+		fd.append('categoryId', document.getElementById('productCategory').value);
+		const img = document.getElementById('productImages').files[0];
+		if (img) fd.append('images', img);
+		const desc = document.getElementById('description').value;
+		if (desc) fd.append('description', desc);
+		const url = id ? '/api/product/updateProduct' : '/api/product/addProduct';
+		await fetch(url, { method: id ? 'PUT':'POST', body: fd });
+		loadProducts();
+	};
+
+	loadCategories();
+	loadProducts();
+	</script>
+</body>
+</html>
