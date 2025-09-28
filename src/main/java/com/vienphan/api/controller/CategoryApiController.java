@@ -4,8 +4,7 @@ import com.vienphan.api.entity.Category;
 import com.vienphan.api.model.ApiResponse;
 import com.vienphan.api.service.ICategoryService;
 import com.vienphan.api.service.IStorageService;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +40,11 @@ public class CategoryApiController {
 	}
 
 	@PostMapping(path = "/addCategory")
-	public ResponseEntity<?> addCategory(@RequestParam("categoryName") @NotBlank String categoryName,
+	public ResponseEntity<?> addCategory(@RequestParam("categoryName") @NotBlank(message = "Tên danh mục không được để trống") @Size(max = 255, message = "Tên danh mục không được vượt quá 255 ký tự") String categoryName,
 			@RequestParam(value = "icon", required = false) MultipartFile icon) {
 		Optional<Category> optCategory = categoryService.findByCategoryName(categoryName);
 		if (optCategory.isPresent()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category đã tồn tại trong hệ thống");
+			return new ResponseEntity<>(new ApiResponse(false, "Category đã tồn tại trong hệ thống", null), HttpStatus.BAD_REQUEST);
 		}
 		Category category = new Category();
 		if (icon != null && !icon.isEmpty()) {

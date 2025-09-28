@@ -3,47 +3,310 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>AJAX CRUD Demo</title>
+	<title>Product Management API - Phan Quốc Viễn (MSSV: 23110362)</title>
 	<style>
-		body { font-family: sans-serif; margin: 24px; }
-		table { border-collapse: collapse; width: 100%; margin-top: 12px; }
-		th, td { border: 1px solid #ddd; padding: 8px; }
-		th { background: #f3f3f3; }
-		section { margin-bottom: 32px; }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		body { 
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			padding: 20px;
+		}
+		
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			background: white;
+			border-radius: 20px;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+			overflow: hidden;
+		}
+		
+		.header {
+			background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+			padding: 30px;
+			text-align: center;
+			color: white;
+		}
+		
+		.header h1 {
+			font-size: 2.5em;
+			margin-bottom: 10px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+		}
+		
+		.developer-info {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 15px;
+			margin-top: 15px;
+		}
+		
+		.avatar {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			border: 3px solid white;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		}
+		
+		.developer-text {
+			font-size: 1.1em;
+			font-weight: 500;
+		}
+		
+		.content {
+			padding: 40px;
+		}
+		
+		section { 
+			margin-bottom: 50px;
+			background: #f8f9fa;
+			padding: 30px;
+			border-radius: 15px;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+		}
+		
+		section h2 {
+			color: #2c3e50;
+			margin-bottom: 25px;
+			font-size: 1.8em;
+			border-bottom: 3px solid #4facfe;
+			padding-bottom: 10px;
+		}
+		
+		.form-group {
+			margin-bottom: 20px;
+		}
+		
+		.form-row {
+			display: flex;
+			gap: 15px;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+		}
+		
+		.form-row input, .form-row select {
+			flex: 1;
+			min-width: 200px;
+		}
+		
+		input, select, textarea {
+			padding: 12px 15px;
+			border: 2px solid #e1e8ed;
+			border-radius: 10px;
+			font-size: 14px;
+			transition: all 0.3s ease;
+			background: white;
+		}
+		
+		input:focus, select:focus, textarea:focus {
+			outline: none;
+			border-color: #4facfe;
+			box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+		}
+		
+		textarea {
+			width: 100%;
+			min-height: 100px;
+			resize: vertical;
+		}
+		
+		button {
+			background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+			color: white;
+			border: none;
+			padding: 12px 25px;
+			border-radius: 25px;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+		}
+		
+		button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+		}
+		
+		button:active {
+			transform: translateY(0);
+		}
+		
+		.btn-danger {
+			background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+			box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+		}
+		
+		.btn-danger:hover {
+			box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+		}
+		
+		.btn-success {
+			background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+			box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+		}
+		
+		.btn-success:hover {
+			box-shadow: 0 6px 20px rgba(81, 207, 102, 0.4);
+		}
+		
+		table { 
+			border-collapse: collapse; 
+			width: 100%; 
+			margin-top: 20px;
+			background: white;
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+		}
+		
+		.empty-state {
+			text-align: center;
+			padding: 40px;
+			color: #6c757d;
+			font-style: italic;
+		}
+		
+		th, td { 
+			padding: 15px 12px; 
+			text-align: left;
+		}
+		
+		th { 
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: white;
+			font-weight: 600;
+			text-transform: uppercase;
+			font-size: 12px;
+			letter-spacing: 1px;
+		}
+		
+		td {
+			border-bottom: 1px solid #f1f3f4;
+		}
+		
+		tr:hover {
+			background: #f8f9fa;
+		}
+		
+		tr:last-child td {
+			border-bottom: none;
+		}
+		
+		.actions {
+			display: flex;
+			gap: 8px;
+		}
+		
+		.actions button {
+			padding: 8px 15px;
+			font-size: 12px;
+		}
+		
+		.reload-btn {
+			background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+			color: #2c3e50;
+			margin-bottom: 20px;
+		}
+		
+		.reload-btn:hover {
+			box-shadow: 0 6px 20px rgba(168, 237, 234, 0.4);
+		}
+		
+		@media (max-width: 768px) {
+			.form-row {
+				flex-direction: column;
+			}
+			
+			.form-row input, .form-row select {
+				min-width: 100%;
+			}
+			
+			.developer-info {
+				flex-direction: column;
+				text-align: center;
+			}
+			
+			.header h1 {
+				font-size: 2em;
+			}
+			
+			.content {
+				padding: 20px;
+			}
+			
+			section {
+				padding: 20px;
+			}
+		}
 	</style>
 </head>
 <body>
-	<h1>AJAX CRUD Demo</h1>
-	<section>
-		<h2>Category</h2>
-		<form id="categoryForm">
-			<input type="hidden" id="categoryId">
-			<input placeholder="Category name" id="categoryName">
-			<input type="file" id="categoryIcon">
-			<button type="submit">Lưu</button>
-		</form>
-		<button id="reloadCategory">Tải lại</button>
+	<div class="container">
+		<div class="header">
+			<h1>Product Management API</h1>
+			<div class="developer-info">
+				<img src="/image/avatar.jpg" alt="Avatar" class="avatar">
+				<div class="developer-text">
+					<strong>Developer:</strong> Phan Quốc Viễn<br>
+					<strong>MSSV:</strong> 23110362
+				</div>
+			</div>
+		</div>
+		
+		<div class="content">
+			<section>
+				<h2>Category</h2>
+				<button id="reloadCategory" class="reload-btn">🔄 Tải lại danh mục</button>
+				<form id="categoryForm">
+					<input type="hidden" id="categoryId">
+					<div class="form-row">
+						<input placeholder="Tên danh mục" id="categoryName" required>
+						<input type="file" id="categoryIcon" accept="image/*">
+					</div>
+					<button type="submit" class="btn-success">💾 Lưu danh mục</button>
+				</form>
 		<table id="categoryTable">
 			<thead><tr><th>ID</th><th>Name</th><th>Icon</th><th>Action</th></tr></thead>
 			<tbody></tbody>
 		</table>
 	</section>
 
-	<section>
-		<h2>Product</h2>
-		<form id="productForm">
-			<input type="hidden" id="productId">
-			<input placeholder="Product name" id="productName">
-			<input placeholder="Quantity" type="number" id="quantity" value="1">
-			<input placeholder="Unit Price" type="number" step="0.01" id="unitPrice" value="0">
-			<input placeholder="Discount" type="number" step="0.01" id="discount" value="0">
-			<input placeholder="Status" type="number" id="status" value="1">
-			<select id="productCategory"></select>
-			<input type="file" id="productImages">
-			<textarea placeholder="Description" id="description"></textarea>
-			<button type="submit">Lưu</button>
-		</form>
-		<button id="reloadProduct">Tải lại</button>
+			<section>
+				<h2>Product</h2>
+				<button id="reloadProduct" class="reload-btn">🔄 Tải lại sản phẩm</button>
+				<form id="productForm">
+					<input type="hidden" id="productId">
+					<div class="form-row">
+						<input placeholder="Tên sản phẩm" id="productName" required>
+						<input placeholder="Số lượng" type="number" id="quantity" value="1" min="0" required>
+					</div>
+					<div class="form-row">
+						<input placeholder="Giá sản phẩm" type="number" step="0.01" id="unitPrice" value="0" min="0" required>
+						<input placeholder="Giảm giá (%)" type="number" step="0.01" id="discount" value="0" min="0" max="100">
+					</div>
+					<div class="form-row">
+						<select id="productCategory" required>
+							<option value="">Chọn danh mục</option>
+						</select>
+						<input placeholder="Trạng thái" type="number" id="status" value="1" min="0" max="1">
+					</div>
+					<div class="form-group">
+						<input type="file" id="productImages" accept="image/*">
+					</div>
+					<div class="form-group">
+						<textarea placeholder="Mô tả sản phẩm" id="description"></textarea>
+					</div>
+					<button type="submit" class="btn-success">💾 Lưu sản phẩm</button>
+				</form>
 		<table id="productTable">
 			<thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Category</th><th>Image</th><th>Action</th></tr></thead>
 			<tbody></tbody>
@@ -63,15 +326,20 @@
 		const tbody = document.querySelector('#categoryTable tbody');
 		tbody.innerHTML = '';
 		const select = document.getElementById('productCategory');
-		select.innerHTML = '';
-		items.forEach(c => {
-			const tr = document.createElement('tr');
-			tr.innerHTML = `<td>${c.categoryId}</td><td>${c.categoryName}</td><td>${c.icon||''}</td>
-			<td><button data-id="${c.categoryId}" class="edit-cat">Sửa</button> <button data-id="${c.categoryId}" class="del-cat">Xóa</button></td>`;
-			tbody.appendChild(tr);
-			const opt = document.createElement('option');
-			opt.value = c.categoryId; opt.textContent = c.categoryName; select.appendChild(opt);
-		});
+		select.innerHTML = '<option value="">Chọn danh mục</option>';
+		
+		if (items.length === 0) {
+			tbody.innerHTML = '<tr><td colspan="4" class="empty-state">📂 Chưa có danh mục nào</td></tr>';
+		} else {
+			items.forEach(c => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `<td>${c.categoryId}</td><td>${c.categoryName}</td><td>${c.icon||''}</td>
+				<td><div class="actions"><button data-id="${c.categoryId}" class="edit-cat">✏️ Sửa</button> <button data-id="${c.categoryId}" class="del-cat btn-danger">🗑️ Xóa</button></div></td>`;
+				tbody.appendChild(tr);
+				const opt = document.createElement('option');
+				opt.value = c.categoryId; opt.textContent = c.categoryName; select.appendChild(opt);
+			});
+		}
 	}
 
 	async function loadProducts() {
@@ -79,12 +347,17 @@
 		const items = apiBody(true, data);
 		const tbody = document.querySelector('#productTable tbody');
 		tbody.innerHTML = '';
-		items.forEach(p => {
-			const tr = document.createElement('tr');
-			tr.innerHTML = `<td>${p.productId}</td><td>${p.productName}</td><td>${p.unitPrice}</td><td>${p.category? p.category.categoryName: ''}</td><td>${p.images||''}</td>
-			<td><button data-id="${p.productId}" class="edit-pro">Sửa</button> <button data-id="${p.productId}" class="del-pro">Xóa</button></td>`;
-			tbody.appendChild(tr);
-		});
+		
+		if (items.length === 0) {
+			tbody.innerHTML = '<tr><td colspan="6" class="empty-state">📦 Chưa có sản phẩm nào</td></tr>';
+		} else {
+			items.forEach(p => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `<td>${p.productId}</td><td>${p.productName}</td><td>${p.unitPrice.toLocaleString('vi-VN')} VNĐ</td><td>${p.category? p.category.categoryName: ''}</td><td>${p.images||''}</td>
+				<td><div class="actions"><button data-id="${p.productId}" class="edit-pro">✏️ Sửa</button> <button data-id="${p.productId}" class="del-pro btn-danger">🗑️ Xóa</button></div></td>`;
+				tbody.appendChild(tr);
+			});
+		}
 	}
 
 	document.getElementById('reloadCategory').onclick = loadCategories;
@@ -95,13 +368,25 @@
 		const id = document.getElementById('categoryId').value;
 		const name = document.getElementById('categoryName').value;
 		const icon = document.getElementById('categoryIcon').files[0];
+		
+		if (!name.trim()) {
+			alert('Vui lòng nhập tên danh mục!');
+			return;
+		}
+		
 		const fd = new FormData();
 		if (id) fd.append('categoryId', id);
 		fd.append('categoryName', name);
 		if (icon) fd.append('icon', icon);
 		const url = id ? '/api/category/updateCategory' : '/api/category/addCategory';
-		await fetch(url, { method: id ? 'PUT':'POST', body: fd });
-		loadCategories();
+		
+		try {
+			await fetch(url, { method: id ? 'PUT':'POST', body: fd });
+			document.getElementById('categoryForm').reset();
+			loadCategories();
+		} catch (error) {
+			alert('Có lỗi xảy ra: ' + error.message);
+		}
 	};
 
 	document.addEventListener('click', async (e) => {
@@ -142,25 +427,55 @@
 	document.getElementById('productForm').onsubmit = async (e) => {
 		e.preventDefault();
 		const id = document.getElementById('productId').value;
+		const productName = document.getElementById('productName').value;
+		const quantity = document.getElementById('quantity').value;
+		const unitPrice = document.getElementById('unitPrice').value;
+		const categoryId = document.getElementById('productCategory').value;
+		
+		if (!productName.trim()) {
+			alert('Vui lòng nhập tên sản phẩm!');
+			return;
+		}
+		if (!quantity || quantity < 0) {
+			alert('Vui lòng nhập số lượng hợp lệ!');
+			return;
+		}
+		if (!unitPrice || unitPrice < 0) {
+			alert('Vui lòng nhập giá sản phẩm hợp lệ!');
+			return;
+		}
+		if (!categoryId) {
+			alert('Vui lòng chọn danh mục!');
+			return;
+		}
+		
 		const fd = new FormData();
 		if (id) fd.append('productId', id);
-		fd.append('productName', document.getElementById('productName').value);
-		fd.append('quantity', document.getElementById('quantity').value);
-		fd.append('unitPrice', document.getElementById('unitPrice').value);
+		fd.append('productName', productName);
+		fd.append('quantity', quantity);
+		fd.append('unitPrice', unitPrice);
 		fd.append('discount', document.getElementById('discount').value);
 		fd.append('status', document.getElementById('status').value);
-		fd.append('categoryId', document.getElementById('productCategory').value);
+		fd.append('categoryId', categoryId);
 		const img = document.getElementById('productImages').files[0];
 		if (img) fd.append('images', img);
 		const desc = document.getElementById('description').value;
 		if (desc) fd.append('description', desc);
 		const url = id ? '/api/product/updateProduct' : '/api/product/addProduct';
-		await fetch(url, { method: id ? 'PUT':'POST', body: fd });
-		loadProducts();
+		
+		try {
+			await fetch(url, { method: id ? 'PUT':'POST', body: fd });
+			document.getElementById('productForm').reset();
+			loadProducts();
+		} catch (error) {
+			alert('Có lỗi xảy ra: ' + error.message);
+		}
 	};
 
-	loadCategories();
-	loadProducts();
-	</script>
+			loadCategories();
+			loadProducts();
+		</script>
+		</div>
+	</div>
 </body>
 </html>

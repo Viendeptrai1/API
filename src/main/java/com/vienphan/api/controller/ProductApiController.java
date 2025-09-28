@@ -6,8 +6,7 @@ import com.vienphan.api.model.ApiResponse;
 import com.vienphan.api.service.ICategoryService;
 import com.vienphan.api.service.IProductService;
 import com.vienphan.api.service.IStorageService;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,14 +46,14 @@ public class ProductApiController {
 
 	@PostMapping(path = "/addProduct")
 	public ResponseEntity<?> addProduct(
-			@RequestParam("productName") @NotBlank String productName,
-			@RequestParam("quantity") @NotNull Integer quantity,
-			@RequestParam("unitPrice") @NotNull Double unitPrice,
+			@RequestParam("productName") @NotBlank(message = "Tên sản phẩm không được để trống") String productName,
+			@RequestParam("quantity") @NotNull(message = "Số lượng không được để trống") @Min(value = 0, message = "Số lượng phải lớn hơn hoặc bằng 0") Integer quantity,
+			@RequestParam("unitPrice") @NotNull(message = "Giá sản phẩm không được để trống") @DecimalMin(value = "0.0", message = "Giá sản phẩm phải lớn hơn hoặc bằng 0") Double unitPrice,
 			@RequestParam(value = "images", required = false) MultipartFile images,
 			@RequestParam(value = "description", required = false) String description,
-			@RequestParam(value = "discount", required = false, defaultValue = "0") Double discount,
-			@RequestParam("status") @NotNull Short status,
-			@RequestParam("categoryId") @NotNull Long categoryId
+			@RequestParam(value = "discount", required = false, defaultValue = "0") @DecimalMin(value = "0.0", message = "Giảm giá phải lớn hơn hoặc bằng 0") @DecimalMax(value = "100.0", message = "Giảm giá không được vượt quá 100%") Double discount,
+			@RequestParam("status") @NotNull(message = "Trạng thái không được để trống") Short status,
+			@RequestParam("categoryId") @NotNull(message = "Danh mục không được để trống") Long categoryId
 	) {
 		Optional<Category> category = categoryService.findById(categoryId);
 		if (category.isEmpty()) {

@@ -11,14 +11,21 @@
     <groupId>com.vienphan</groupId>
     <artifactId>API</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>API</name>
-    <description>API</description>
-    <url/>
+    <name>Product Management API</name>
+    <description>API quản lý sản phẩm và danh mục - Phan Quốc Viễn (MSSV: 23110362)</description>
+    <url>https://github.com/vienphan/api</url>
     <licenses>
-        <license/>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Phan Quốc Viễn</name>
+            <email>vienphan@example.com</email>
+            <id>23110362</id>
+        </developer>
     </developers>
     <scm>
         <connection/>

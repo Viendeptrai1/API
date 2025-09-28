@@ -1,3 +1,6 @@
+# Product Management API - Docker Compose Configuration
+# Developer: Phan Quốc Viễn (MSSV: 23110362)
+# Chỉ chạy database và pgAdmin, ứng dụng chạy trực tiếp từ IntelliJ
 version: '3.9'
 services:
   db:
